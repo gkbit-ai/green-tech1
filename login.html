@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Feira Online</h1>
+        <img src="images/logo.png" alt="Logo do Projeto" class="header-logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="troca.html">Troca de Alimentos</a></li>
+                <li><a href="venda.html">Venda de Alimentos</a></li>
+                <li><a href="compra.html">Compra de Alimentos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+                <li><a href="perfil.html">Perfil do Vendedor</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="email" required>
+                <label for="login-password">Senha:</label>
+                <input type="password" id="login-password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Feira Online</p>
+        <img src="images/logo.png" alt="Logo do Projeto" class="footer-logo">
+    </footer>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            const seller = sellers.find(seller => seller.email === email && seller.password === password);
+
+            if (seller) {
+                localStorage.setItem('currentSeller', JSON.stringify(seller));
+                alert('Login realizado com sucesso!');
+                window.location.href = 'perfil.html';
+            } else {
+                alert('Email ou senha incorretos. Tente novamente.');
+            }
+        });
+    </script>
+</body>
+</html>
+

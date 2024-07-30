@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feira Online</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Feira Online</h1>
+        <img src="images/logo.png" alt="Logo do Projeto" class="header-logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="troca.html">Troca de Alimentos</a></li>
+                <li><a href="venda.html">Venda de Alimentos</a></li>
+                <li><a href="compra.html">Compra de Alimentos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+                <li><a href="perfil.html">Perfil do Vendedor</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <img src="images/logo.png" alt="Logo Grande" class="large-logo">
+            <h2 class="slogan">Conectando o campo e a cidade para um futuro mais saudável</h2>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Feira Online</p>
+        <img src="images/logo.png" alt="Logo do Projeto" class="footer-logo">
+    </footer>
+</body>
+</html>
+
+
+
+troca.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troca de Alimentos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Feira Online</h1>
+        <img src="images/logo.png" alt="Logo do Projeto" class="header-logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="troca.html">Troca de Alimentos</a></li>
+                <li><a href="venda.html">Venda de Alimentos</a></li>
+                <li><a href="compra.html">Compra de Alimentos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Troca de Alimentos</h2>
+            <form id="product-form">
+                <label for="product-name">Nome do Produto:</label>
+                <input type="text" id="product-name" name="product-name" required>
+                <label for="product-description">Descrição:</label>
+                <textarea id="product-description" name="product-description" required></textarea>
+                <label for="product-image">URL da Imagem:</label>
+                <input type="text" id="product-image" name="product-image" required>
+                <input type="submit" value="Adicionar Produto">
+            </form>
+            <div class="product-grid" id="product-grid"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Feira Online</p>
+        <img src="images/logo.png" alt="Logo do Projeto" class="footer-logo">
+    </footer>
+    <script>
+        document.getElementById('product-form').addEventListener('submit', addProduct);
+
+        function displayProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const productGrid = document.getElementById('product-grid');
+            productGrid.innerHTML = '';
+            
+            products.forEach((product, index) => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+                
+                productItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <button onclick="deleteProduct(${index})">Deletar Produto</button>
+                `;
+                
+                productGrid.appendChild(productItem);
+            });
+        }
+
+        function addProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('product-name').value;
+            const description = document.getElementById('product-description').value;
+            const image = document.getElementById('product-image').value;
+            
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.push({ name, description, image });
+            localStorage.setItem('products', JSON.stringify(products));
+            displayProducts();
+        }
+
+        function deleteProduct(index) {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.splice(index, 1);
+            localStorage.setItem('products', JSON.stringify(products));
+            displayProducts();
+        }
+
+        displayProducts();
+    </script>
+</body>
+</html>

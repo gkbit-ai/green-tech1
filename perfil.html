@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Vendedor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Feira Online</h1>
+        <img src="images/logo.png" alt="Logo do Projeto" class="header-logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="troca.html">Troca de Alimentos</a></li>
+                <li><a href="venda.html">Venda de Alimentos</a></li>
+                <li><a href="compra.html">Compra de Alimentos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+                <li><a href="perfil.html">Perfil do Vendedor</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Perfil do Vendedor</h2>
+            <form id="profile-form">
+                <label for="profile-name">Nome:</label>
+                <input type="text" id="profile-name" name="name" required>
+                <label for="profile-email">Email:</label>
+                <input type="email" id="profile-email" name="email" required>
+                <label for="profile-password">Senha:</label>
+                <input type="password" id="profile-password" name="password" required>
+                <label for="profile-confirm-password">Confirme a Senha:</label>
+                <input type="password" id="profile-confirm-password" name="confirm-password" required>
+                <button type="submit">Atualizar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Feira Online</p>
+        <img src="images/logo.png" alt="Logo do Projeto" class="footer-logo">
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seller = JSON.parse(localStorage.getItem('currentSeller')) || {};
+            document.getElementById('profile-name').value = seller.name || '';
+            document.getElementById('profile-email').value = seller.email || '';
+        });
+
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('profile-name').value;
+            const email = document.getElementById('profile-email').value;
+            const password = document.getElementById('profile-password').value;
+            const confirmPassword = document.getElementById('profile-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem. Tente novamente.');
+                return;
+            }
+
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            const currentSellerIndex = sellers.findIndex(seller => seller.email === email);
+
+            if (currentSellerIndex !== -1) {
+                sellers[currentSellerIndex] = { name, email, password };
+                localStorage.setItem('sellers', JSON.stringify(sellers));
+                localStorage.setItem('currentSeller', JSON.stringify({ name, email }));
+                alert('Perfil atualizado com sucesso!');
+            } else {
+                alert('Vendedor não encontrado.');
+            }
+        });
+    </script>
+</body>
+</html>
